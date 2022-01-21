@@ -75,9 +75,43 @@ class _CatsBlocViewState extends State<CatsBlocView> {
     return ListView.builder(
       itemCount: state.response.length,
       itemBuilder: (context, index) {
-        return Card(
-          child: Text(
-            state.response[index].imageUrl.toString(),
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15.0,
+            vertical: 10.0,
+          ),
+          child: Container(
+            alignment: Alignment.topCenter,
+            height: 300.0,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Colors.indigo,
+                  Colors.pink,
+                ],
+              ),
+              image: DecorationImage(
+                image: NetworkImage(
+                  state.response[index].imageUrl.toString(),
+                ),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 5),
+                  blurRadius: 10.0,
+                  color: Colors.grey.shade800,
+                )
+              ],
+            ),
+            child: Text(
+              state.response[index].description.toString(),
+              style: const  TextStyle(color: Colors.white),
+            ),
           ),
         );
       },
