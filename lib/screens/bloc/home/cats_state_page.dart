@@ -1,3 +1,4 @@
+import 'package:cubit_example/core/model/cats_model.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class CatsState {
@@ -13,7 +14,7 @@ class CatsLoading extends CatsState {
 }
 
 class CatsCompledet extends CatsState {
-  final List<String> response;
+  final List<Cats> response;
 
   const CatsCompledet(this.response);
 

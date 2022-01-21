@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cubit_example/core/model/cats_repository.dart';
 import 'package:cubit_example/screens/bloc/home/cats_cubit_page.dart';
 import 'package:cubit_example/screens/bloc/home/cats_state_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,9 @@ class _CatsBlocViewState extends State<CatsBlocView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CatsCubit(),
+      create: (context) => CatsCubit(
+        SampleCatsRepository(),
+      ),
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -27,18 +30,23 @@ class _CatsBlocViewState extends State<CatsBlocView> {
           children: [
             Expanded(
               child: BlocConsumer<CatsCubit, CatsState>(
-                listener: (context, state) {},
+                listener: (context, state) {
+                  if (state is CatsError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          state.errorMessage.toString(),
+                        ),
+                      ),
+                    );
+                  }
+                },
                 builder: (context, state) {
                   if (state is CatsInitial) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Cats Initial ishga tushdi'
-                        ),
-                        floatingActionButton(context),
-                      ],
+                    return Center(
+                      child: Platform.isAndroid
+                          ? const CircularProgressIndicator()
+                          : const CupertinoActivityIndicator(),
                     );
                   } else if (state is CatsLoading) {
                     return Center(
@@ -68,18 +76,11 @@ class _CatsBlocViewState extends State<CatsBlocView> {
       itemCount: state.response.length,
       itemBuilder: (context, index) {
         return Card(
-          child: Text(state.response[index]),
+          child: Text(
+            state.response[index].imageUrl.toString(),
+          ),
         );
       },
-    );
-  }
-
-  FloatingActionButton floatingActionButton(context) {
-    return FloatingActionButton(
-      onPressed: () {
-        BlocProvider.of<CatsCubit>(context, listen: false).getCats();
-      },
-      child: const Icon(Icons.refresh),
     );
   }
 }
