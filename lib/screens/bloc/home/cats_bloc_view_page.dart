@@ -25,6 +25,7 @@ class _CatsBlocViewState extends State<CatsBlocView> {
           title: const Text(
             "Cats Bloc Home Page",
           ),
+          centerTitle: true,
         ),
         body: Column(
           children: [
@@ -110,7 +111,7 @@ class _CatsBlocViewState extends State<CatsBlocView> {
             ),
             child: Text(
               state.response[index].description.toString(),
-              style: const  TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         );
